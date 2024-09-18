@@ -24,3 +24,7 @@
 - Click to Go Live from the status bar to turn the webserver on/off.
 - ![screenshot of go live](https://github.com/ritwickdey/vscode-live-server/raw/HEAD/images/Screenshot/vscode-live-server-statusbar-3.jpg)
 - By default, the server should be at [https://127.0.0.1:5500/].
+
+## Challenges
+
+- Each web page is meant to be a brief crash course / tutorial. Some of them contain challenges or deliberately broken elements. Please open each one and complete it!
