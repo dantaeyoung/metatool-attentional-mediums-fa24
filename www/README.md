@@ -9,8 +9,10 @@
 - Download & Install the LiveServer plugin for VSCode [https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer]
 
 ## Fork repository
-(Detailed tutorial [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo?tool=webui))
+From [https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks]:
+- Forks let you make changes to a project without affecting the original repository, also known as the "upstream" repository. After you fork a repository, you can fetch updates from the upstream repository to keep your fork up to date, and you can propose changes from your fork to the upstream repository with pull requests. A fork can exist in either a personal account or an organization.
 
+(Detailed tutorial [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo?tool=webui))
 - Fork repository by clicking on the `Fork` button.
 - Follow the UI and click `Create fork`.
 - In your forked repository, click the `Code` button. Navigate to `Open with Github Desktop`.
@@ -28,3 +30,9 @@
 ## Challenges
 
 - Each web page is meant to be a brief crash course / tutorial. Some of them contain challenges or deliberately broken elements. Please open each one and complete it!
+
+## Submit a pull request
+
+When you're done, please submit a pull request! A 'pull request' proposes changes to the parent or 'upstream' repository from your forked repo.
+- Follow the following steps: [https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork]
+
