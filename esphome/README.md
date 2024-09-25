@@ -38,6 +38,8 @@ light:
     num_leds: 60
     name: "NeoPixel Light"
 ```
+This code enables the webserver, and adds the on-board RGB LED to the configuration as a 'light' so that we can control it.
+
 
 # 'Flash' and Run ESPHome file
 
@@ -54,4 +56,8 @@ light:
 There are many different ways we'll be interacting with the board, but for now, we'll be using the built-in web server.
 
 Go to `http://dan_metatool1.local/`, or whatever you have named your board.
-You'll see something like the below: !(images/esphome_web_interface.png)[images/esphome_web_interface.png]
+You'll see something like the below: ![images/esphome_web_interface.png](images/esphome_web_interface.png)
+
+Try toggling the 'Off' and 'On' switch and changing the brightness. 
+
+Do you see the LED turn on? Then success! We have successfully set up an ESP32 board!
