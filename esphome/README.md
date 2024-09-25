@@ -14,27 +14,44 @@ Open a terminal
 
 In terminal, 
 - type `esphome wizard metatool1.yaml`. A wizard should appear!
-- Give your ESPHome a name. e.g. 'metatool1' or 'livingroom'.
+- Give your ESPHome a name. e.g. 'dan_metatool1' or 'dan_livingroom'. 
 - The platform is `esp32`.
 - For the board, type in `esp32-s3-devkitc-1`.
 - For wifi, type in the wifi SSID and password. We'll be able to add multiple networks later.
 - Lastly, for OTA password, set a password, if you wish - I recommend just pressing enter.
 
-It should create a `metatool1.yaml` file in the directory it is currently in!
+It should create a `dan_metatool1.yaml` file in the directory it is currently in!
 
 Open the file in a editor of your choice (such as Visual Studio Code).
 
 Add in this code at the end of the YAML file:
 ```
+web_server:
+  port: 80
+
 light:
   - platform: neopixelbus
+    id: "neopixel_light"
     type: GRB
     variant: WS2812
     pin: GPIO48
     num_leds: 60
-    name: "NeoPixel Light
+    name: "NeoPixel Light"
 ```
 
 # 'Flash' and Run ESPHome file
 
-In terminal, type `esphome run metatool1.yaml`.
+- In terminal, type `esphome run metatool1.yaml`.
+
+- On your first run, things might download from scratch, so this may take some time. Eventually, it will ask you for which option to upload to. Choose the one that starts with `/dev/cu.wchusb`:
+  -  `  [2] /dev/cu.wchusbserial57640500571 (USB Single Serial)`
+  - Enter '2'.
+
+- The code should be 'flashed', or uploaded to the board.
+
+# Interacting with the board
+
+There are many different ways we'll be interacting with the board, but for now, we'll be using the built-in web server.
+
+Go to `http://dan_metatool1.local/`, or whatever you have named your board.
+You'll see something like the below: !(images/esphome_web_interface.png)[images/esphome_web_interface.png]
