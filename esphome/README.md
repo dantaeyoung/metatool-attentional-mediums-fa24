@@ -1,4 +1,4 @@
-
+j
 # Setup
 
 - Install ESPHome [https://esphome.io/guides/installing_esphome]
@@ -32,3 +32,6 @@ light:
     name: "NeoPixel Light
 ```
 
+# 'Flash' and Run ESPHome file
+
+In terminal, type `esphome run metatool1.yaml`.
