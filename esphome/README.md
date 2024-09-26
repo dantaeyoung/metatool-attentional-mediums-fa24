@@ -5,6 +5,9 @@
 
 - Download one of the CH343 drivers for this particular ESP32 board. [https://wch-ic.com/search?t=all&q=ch343]
   - (As a note, I am usually against downloading arbitrary drivers from a security perspective; I apologize in advance for choosing this board and making you download this driver! If you'd rather not download this driver, feel free to use [this board](https://www.amazon.com/ESP-WROOM-32-Development-Microcontroller-Integrated-Compatible/dp/B08D5ZD528?crid=2YL78008PMNDL&dib=eyJ2IjoiMSJ9.BIu3I9Sm5to7GVTumKqgP67op2hMtpwF80mJByziDxX1o2N4IpgFfxSJMsSMd7dIn2EgpKwLFLruBJEPyAOh-DgyIFMd1J2kFYG5a6FS3Zc-toH9UN-GYZ5m1w-BIvXsDXFzAwJgTL4UmrmAOoSKp6TNDcljUfx9421YtJtXivtooZwd2_8AGKucUXF_nuaSUbPF1-WJwM6KDPfLbYw6kyrClBKAYd8X0A4HbOHtDpA.PpQPr9olL2c063G_s9xqqz2vYNY4dyR0vtzTliF-5J4&dib_tag=se&keywords=esp32&qid=1727299280&sprefix=esp32,aps,134&sr=8-2).)
+  - [https://wch-ic.com/downloads/CH34XSER_MAC_ZIP.html]
+  - [https://wch-ic.com/downloads/CH343CDC_ZIP.html]
+
 
 # Create an ESPHome project!
 
