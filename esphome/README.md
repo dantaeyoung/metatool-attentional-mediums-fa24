@@ -54,4 +54,4 @@ light:
 There are many different ways we'll be interacting with the board, but for now, we'll be using the built-in web server.
 
 Go to `http://dan_metatool1.local/`, or whatever you have named your board.
-You'll see something like the below: !(images/esphome_web_interface.png)[images/esphome_web_interface.png]
+You'll see something like the below: ![images/esphome_web_interface.png](images/esphome_web_interface.png)
