@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intro to CSS</title>
+    <style>
+
+      /* CSS styles for .day-report */
+
+      .day-report {
+        font-size: 1.2em; /* font size can be in 'em' or in pixels 'px' */
+        width: 795px; /* width! can you specify height? */
+        height: 370px; /* width! can you specify height? */ 
+        padding: 50px; /* the padding around the content */ 
+        border: 1px dashed #777; /* 'thickness', 'style', and 'color' in order. #777 is an abbreviation for #777777 here! */
+        background-color: #333333; /* colors can be specified in either HEX or rgb */
+        color: rgb(202, 201, 201);
+        margin-left: 5px;
+      }
+
+      .date {
+        font-size: 1.62em; /* font size can be in 'em' or in pixels 'px' */
+        color: rgb(100, 100, 100);
+        font-weight: bold; /* try changing this to 'bold' */
+      }
+
+      .title {
+        font-size: 1.62em; /* font size can be in 'em' or in pixels 'px' */
+        font-weight: bold;
+        color: rgb(232, 110, 105);
+        margin-top: 0px;
+        margin-bottom: 40px;
+        font-weight: bold; /* try changing this to 'bold' */
+      }
+
+      .description {
+        font-size: 1.5em; /* font size can be in 'em' or in pixels 'px' */
+        color: rgb(202, 201, 201);
+        font-weight: Bold; /* try changing this to 'bold' */
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Intro to CSS</h2>
+    <p><strong>CSS (Cascading Style Sheets)</strong> is a language used to define the visual presentation of HTML and XML documents on the web. It enables designers to specify how elements should appear, such as their colors, fonts, spacing, and layout.</p>
+    
+    <p><strong>CSS selectors</strong> are patterns that target specific elements within a webpage, allowing designers to apply styles selectively. For example, the dot notation (<code>.</code>) in CSS is used to target elements with a specific 'class'.</p>
+    
+    <p>For instance, <code>.day-report</code> would apply styles to all elements that have <code>class="day-report"</code> in their HTML, allowing consistent styling across multiple elements with the same class. This notation is essential for organizing and applying styles efficiently across different parts of a website.</p>
+
+    See:
+
+      <div class="day-report">
+        <div>9/11/2024</div>
+        <div>Observation on affordances and practice</div>
+      </div>
+        
+    <p>This element is styled with CSS. Try editing the existing CSS! See what happens if you change the values. </p>
+
+    <p>For a simple set of CSS examples, check out <a href="https://www.freecodecamp.org/news/css-example-css3/">this tutorial</a>. Refer to <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps">this CSS First Steps tutorial</a> for a comprehensive overview. </p>
+
+
+    <h3>Challenges:</h3>
+    <p><b>Can you edit the CSS so that the below element looks like the reference example?</b></p>
+
+    Reference:<br />
+    <img src="images/4_css_example.png" />
+
+      <div class="day-report">
+        <div class="date">9/18/2024</div>
+        <div class="title">Observation on affordances and intervention</div>
+        <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      </div>
+     
+
+    </div>
+
+  </body>
+</html>
