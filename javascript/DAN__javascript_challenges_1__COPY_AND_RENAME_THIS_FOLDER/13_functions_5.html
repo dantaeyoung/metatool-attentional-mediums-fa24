@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="jc.css" rel="stylesheet" />
+</head>
+<body>
+
+  <h1>Javascript Challenges</h1>
+  <h3>Functions: Part 5</h3>
+  <p>And using Javascript, you can also change HTML!</p>
+  <h4>Challenge: Try uncommenting the lines to see how you can also change CSS with Javascript.</h4>
+
+  <button onclick="changeHTML()">Change HTML</button>
+
+  <div id="description">...</div>
+
+<script>
+
+  function changeHTML() {
+
+    // this changes the 'innerText', or the text inside of the element.
+    document.getElementById('description').innerText = "Hello World!";
+
+//  document.getElementById('description').style.setProperty("color", "blue");
+//  document.getElementById('description').style.setProperty("background-color", "pink");
+  }
+
+
+
+</script>
+
+
+</body>
+</html>
+
