@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+
+  </style>
+</head>
+<body>
+
+
+  <h2>Counter</h2>
+  <h4>Challenge 1: The 'minus' button isn't working! Can you fix it?</h4>
+  <h4>Challenge 2: Can you incorporate an `if` statement so that, when the counter is equal or larger to 10, an 'alert' popup appears?</h4>
+  <p>(You might have to incorporate code from previous challenges.)</p>
+
+     <div class="counter-container">
+        <button class="counter-button" onclick="decrement()">-</button>
+        <span id="counter-value">0</span>
+        <button class="counter-button" onclick="increment()">+</button>
+    </div>
+
+    <script>
+        // this creates a variable to store the counter value
+        var counterValue = 0;
+
+        // this function, when called, updates the counter.
+        function updateCounter() {
+            document.getElementById('counter-value').innerText = counterValue;
+        }
+
+        // this adds 1 to the counterValue, then updates the counter
+        function increment() {
+            counterValue++;
+            updateCounter();
+        }
+
+        // this subtracts 1 to the counterValue, then updates the counter
+        function decrement() {
+            counterValue++;
+            updateCounter();
+        }
+
+        // when we first run the code, update the counter display (so that it is shown as 0)
+        updateCounter();
+        
+
+    </script>
+  
+
+</script>
+
+
+</body>
+</html>
+
