@@ -3,8 +3,8 @@
 #include <AccelStepper.h>
 
 // WiFi credentials
-const char* ssid = "cumulusclouds";
-const char* password = "sync0pati0n";
+const char* ssid = "WIFI NETWORK";
+const char* password = "WIFI PASSWORD";
 
 // Create a web server on port 80
 WebServer server(80);
