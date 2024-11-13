@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .buttons {
+      margin: 10px 0px;
+    }
+
+    .images {
+      height: 500px;
+      position: relative;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <h3>Map Toggles</h3>
+  <h4>Challenge: One of the buttons isn't working! Figure out why...</h4>
+
+
+  <div class="buttons">
+    <button onclick="toggleImage('img1')">Toggle Image 1</button>
+    <button onclick="toggleImage('img2')">Toggle Image 2</button>
+    <button onclick="toggleImage('img3')">Toggle Image 3</button>
+    <button onclick="toggleImage('img4')">Toggle Image 4</button>
+  </div>
+
+
+  <div class="images">
+    <img id="img1" src="images/map_underlay.png" />
+    <img id="img2" src="images/map_racial.png" />
+    <img id="img3" src="images/map_dots.png" />
+    <img id="img3" src="images/map_rectangle.png" />
+  </div>
+
+  <script>
+
+    function toggleImage(imageId) {
+      var img = document.getElementById(imageId);
+      if (img.style.display === 'none') {
+        img.style.display = 'block';
+      } else {
+        img.style.display = 'none';
+      }
+    }
+
+
+
+  </script>
+
+
+</body>
+
+</html>
