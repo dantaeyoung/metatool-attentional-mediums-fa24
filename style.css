@@ -72,3 +72,10 @@ body {
   padding: 45px;
   text-align: left;
 }
+
+.edu-au-vic-wa-nt-guides-unique {
+  font-family: "Edu AU VIC WA NT Guides", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400; /* You can use numeric values like 400 or 700, or 'bold', 'normal' */
+  font-style: normal;
+}

@@ -49,3 +49,4 @@ light:
     pin: GPIO48
     num_leds: 60
     name: "NeoPixel Light"
+    
