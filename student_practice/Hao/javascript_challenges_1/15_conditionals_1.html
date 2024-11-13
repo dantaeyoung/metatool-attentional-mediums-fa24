@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="jc.css" rel="stylesheet" />
+</head>
+<body>
+
+  <h1>Javascript Challenges</h1>
+  <h3>Conditonals: Part 1</h3>
+  <p>We can use 'if' statements that allow us to define 'conditions'. If the condition is true, the code inside of the block executes.</p>
+
+  <button onclick="incrementCounter()">Increment counter</button>
+
+  <div id="counter-value">0</div>
+
+<script>
+
+  var counter = 0;
+
+  function incrementCounter() {
+    counter = counter + 2;
+    console.log(counter);
+    document.getElementById('counter-value').innerText = counter;
+
+    if(counter >= 6) {
+      alert("Counter is larger or equal than 6!");
+    }
+
+  }
+
+
+
+</script>
+
+
+</body>
+</html>
+
