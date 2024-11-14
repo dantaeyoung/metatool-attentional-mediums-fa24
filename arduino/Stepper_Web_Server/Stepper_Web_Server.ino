@@ -1,3 +1,15 @@
+/*
+
+After the web server is running, try going to:
+
+http://<IP_ADDRESS>/stepper?steps=200
+http://<IP_ADDRESS>/stepper?steps=400&speed=500
+http://<IP_ADDRESS>/stepper?steps=-400&speed=1000&acceleration=1000
+
+The steps are absolute, so running the same command twice in a row will result in no changes!
+
+*/
+
 #include <WiFi.h>
 #include <WebServer.h>
 #include <AccelStepper.h>
@@ -18,6 +30,28 @@ AccelStepper stepper(AccelStepper::DRIVER, STEP_PIN, DIR_PIN);
 float defaultMaxSpeed = 500;
 float defaultAcceleration = 100;
 
+void setupServer() {
+  
+  // Initialize WiFi
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting to WiFi...");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println();
+  Serial.print("Connected! IP address: ");
+  Serial.println(WiFi.localIP());
+
+  // Configure web server routes
+  server.on("/stepper", handleStepperControl);
+
+  // Enable CORS for all responses
+  server.enableCORS();
+
+  // Start server
+  server.begin();
+}
 
 // Handle requests to set stepper target
 void handleStepperControl() {
@@ -51,25 +85,7 @@ void setup() {
   // Initialize serial communication
   Serial.begin(115200);
 
-  // Initialize WiFi
-  WiFi.begin(ssid, password);
-  Serial.print("Connecting to WiFi...");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
-  }
-  Serial.println();
-  Serial.print("Connected! IP address: ");
-  Serial.println(WiFi.localIP());
-
-  // Configure web server routes
-  server.on("/stepper", handleStepperControl);
-
-  // Enable CORS for all responses
-  server.enableCORS();
-
-  // Start server
-  server.begin();
+  setupServer();
 
   // Initialize stepper motor
   stepper.setMaxSpeed(defaultMaxSpeed);
@@ -83,3 +99,4 @@ void loop() {
   // Run the stepper to the set target
   stepper.run();
 }
+
