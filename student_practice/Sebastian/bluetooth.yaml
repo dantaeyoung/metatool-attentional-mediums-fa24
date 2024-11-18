@@ -1,5 +1,5 @@
 esphome:
-  name: esp32_ble_beacon
+  name: esp32-ble-beacon
 
 esp32:
   board: esp32-s3-devkitc-1
@@ -8,11 +8,12 @@ esp32:
 
 # Enable logging
 logger:
-  level: VERBOSE
+  level: VERY_VERBOSE
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
+  fast_connect: true
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
@@ -21,18 +22,14 @@ wifi:
 
 captive_portal:
 
-  # Example configuration entry
 web_server:
   port: 80
-
-# Enable Home Assistant API
-api:
-  password: ""
 
 ota:
   - platform: esphome
     password: ""
 
+# BLE Beacon Config
 esp32_ble_beacon:
   type: iBeacon
   uuid: !secret ble_beacon_uuid
@@ -40,4 +37,44 @@ esp32_ble_beacon:
   minor: 3
   measured_power: -59
 
-# Optional: You can add more sensors or components here
+# MQTT Configuration
+mqtt:
+  broker: io.adafruit.com
+  username: sebschlo
+  password: !secret mqtt_password
+  discovery: false
+  discover_ip: false
+  topic_prefix: sebschlo/feeds
+  log_topic: null
+  keepalive: 5s
+  on_message:
+    topic: sebschlo/feeds/beacon-users
+    then:
+      - lambda: |-
+          ESP_LOGD("mqtt", "Received ada message: %s", x.c_str());
+  birth_message:
+    topic: sebschlo/feeds/beacon-users
+    payload: "Connected successfully"
+  will_message:
+    topic: sebschlo/feeds/beacon-users
+    payload: "Disconnected"
+
+
+# http_request:
+#   useragent: esphome/device
+#   verify_ssl: false
+
+# interval:
+#   - interval: 60s
+#     then:
+#       - http_request.get:
+#           url: http://herokuapp.com
+#           headers:
+#             Content-Type: application/json
+#           on_response:
+#             then:
+#               - logger.log:
+#                   format: "Response status: %d, Duration: %u ms"
+#                   args:
+#                     - response->status_code
+#                     - response->duration_ms
