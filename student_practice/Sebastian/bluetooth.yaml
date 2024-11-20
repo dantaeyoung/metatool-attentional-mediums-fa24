@@ -52,6 +52,39 @@ mqtt:
     then:
       - lambda: |-
           ESP_LOGD("mqtt", "Received ada message: %s", x.c_str());
+          // Parse the JSON message
+          bool success = parse_json(x.c_str(), [](JsonObject json) -> bool {
+            if (!json.containsKey("2:3")) {
+              ESP_LOGE("mqtt", "Key '2:3' not found in JSON");
+              return false;
+            }
+            JsonObject users = json["2:3"];
+            if (!users.containsKey("users") || !users["users"][0].containsKey("signalStrength")) {
+              ESP_LOGE("mqtt", "Key 'users' or 'signalStrength' not found in JSON");
+              return false;
+            }
+
+            int signalStrength = users["users"][0]["signalStrength"];
+            ESP_LOGD("mqtt", "Extracted signalStrength: %d", signalStrength);
+            
+            // Calculate speed 
+            int speed;
+            if (signalStrength >= -30) {
+              speed = 1; // Fastest speed
+            } else if (signalStrength <= -90) {
+              speed = 2000; // Slowest speed
+            } else {
+              speed = 1 + (signalStrength + 30) * (1999 / 60);
+            }
+
+            id(stepper_delay) = speed;
+            ESP_LOGD("mqtt", "Stepper speed set to: %d ms", speed);
+            return true; // Ensure the lambda returns a boolean
+          });
+
+          if (!success) {
+            ESP_LOGE("mqtt", "Failed to parse JSON");
+          }
   birth_message:
     topic: sebschlo/feeds/beacon-users
     payload: "Connected successfully"
@@ -59,6 +92,33 @@ mqtt:
     topic: sebschlo/feeds/beacon-users
     payload: "Disconnected"
 
+stepper:
+  - platform: a4988
+    id: stepper1
+    step_pin: GPIO11
+    dir_pin: GPIO10
+    max_speed: 250 steps/s
+    acceleration: 500 steps/s^2
+    deceleration: 500 steps/s^2
+
+script:
+  - id: oscillate_stepper1
+    mode: restart
+    then:
+      - stepper.set_target:
+          id: stepper1
+          target: -500
+      - delay: !lambda 'return id(stepper_delay);'
+      - stepper.set_target:
+          id: stepper1
+          target: 500
+      - delay: !lambda 'return id(stepper_delay);'
+
+globals:
+  - id: stepper_delay
+    type: int
+    restore_value: no
+    initial_value: '2000'  # Default delay in milliseconds
 
 # http_request:
 #   useragent: esphome/device
