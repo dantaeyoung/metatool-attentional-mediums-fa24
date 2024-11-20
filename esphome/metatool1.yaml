@@ -49,16 +49,4 @@ light:
     pin: GPIO48
     num_leds: 60
     name: "NeoPixel Light"
-
-web_server:
-  port: 80
-
-light:
-  - platform: neopixelbus
-    id: "neopixel_light"
-    type: GRB
-    variant: WS2812
-    pin: GPIO48
-    num_leds: 60
-    name: "NeoPixel Light"
     
