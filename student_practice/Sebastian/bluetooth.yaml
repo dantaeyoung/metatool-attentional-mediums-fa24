@@ -8,7 +8,7 @@ esp32:
 
 # Enable logging
 logger:
-  level: VERY_VERBOSE
+  level: VERBOSE
 
 wifi:
   ssid: !secret wifi_ssid
@@ -68,22 +68,31 @@ mqtt:
             ESP_LOGD("mqtt", "Extracted signalStrength: %d", signalStrength);
             
             // Calculate speed 
-            int speed;
+            float speed;
+            float maxSpeed = 10.0;
             if (signalStrength >= -30) {
-              speed = 1; // Fastest speed
+              speed = maxSpeed;
             } else if (signalStrength <= -90) {
-              speed = 2000; // Slowest speed
+              speed = 0.0; // Stop
             } else {
-              speed = 1 + (signalStrength + 30) * (1999 / 60);
+              speed = (signalStrength + 90) * (maxSpeed / 60);
             }
 
-            id(stepper_delay) = speed;
-            ESP_LOGD("mqtt", "Stepper speed set to: %d ms", speed);
+            id(stepper1).set_max_speed(speed);
+            ESP_LOGD("mqtt", "Stepper speed set to: %.2f steps/s", speed);
             return true; // Ensure the lambda returns a boolean
           });
 
           if (!success) {
             ESP_LOGE("mqtt", "Failed to parse JSON");
+          } else {
+            // Check if the oscillate stepper control switch is on
+            if (id(oscillate_stepper_control).state) {
+              // Start oscillating the stepper
+              id(oscillate_stepper1).execute();
+            } else {
+              ESP_LOGD("mqtt", "Oscillation is disabled by the switch");
+            }
           }
   birth_message:
     topic: sebschlo/feeds/beacon-users
@@ -97,28 +106,26 @@ stepper:
     id: stepper1
     step_pin: GPIO11
     dir_pin: GPIO10
-    max_speed: 250 steps/s
-    acceleration: 500 steps/s^2
-    deceleration: 500 steps/s^2
+    max_speed: 100 steps/s
+    acceleration: 1000 steps/s^2
+    deceleration: 1000 steps/s^2
 
 script:
   - id: oscillate_stepper1
-    mode: restart
+    mode: single
     then:
-      - stepper.set_target:
-          id: stepper1
-          target: -500
-      - delay: !lambda 'return id(stepper_delay);'
-      - stepper.set_target:
-          id: stepper1
-          target: 500
-      - delay: !lambda 'return id(stepper_delay);'
-
-globals:
-  - id: stepper_delay
-    type: int
-    restore_value: no
-    initial_value: '2000'  # Default delay in milliseconds
+      - while:
+          condition:
+            lambda: 'return true;'
+          then:
+            - stepper.set_target:
+                id: stepper1
+                target: !lambda 'return -id(stepper_target_range_variable);'
+            - delay: 2s
+            - stepper.set_target:
+                id: stepper1
+                target: !lambda 'return id(stepper_target_range_variable);'
+            - delay: 2s
 
 # http_request:
 #   useragent: esphome/device
@@ -138,3 +145,66 @@ globals:
 #                   args:
 #                     - response->status_code
 #                     - response->duration_ms
+
+number:
+  - platform: template
+    name: "Stepper Max Speed"
+    id: stepper_max_speed
+    min_value: 0
+    max_value: 250
+    step: 1
+    unit_of_measurement: "steps/s"
+    set_action:
+      - lambda: |-
+          id(stepper1).set_max_speed(x);
+
+  - platform: template
+    name: "Stepper Acceleration"
+    id: stepper_acceleration
+    min_value: 0
+    max_value: 2000
+    step: 10
+    unit_of_measurement: "steps/s^2"
+    set_action:
+      - lambda: |-
+          id(stepper1).set_acceleration(x);
+
+  - platform: template
+    name: "Stepper Deceleration"
+    id: stepper_deceleration
+    min_value: 0
+    max_value: 2000
+    step: 10
+    unit_of_measurement: "steps/s^2"
+    set_action:
+      - lambda: |-
+          id(stepper1).set_deceleration(x);
+
+  - platform: template
+    name: "Stepper Target Range"
+    id: stepper_target_range
+    min_value: 0
+    max_value: 1000
+    step: 10
+    unit_of_measurement: "steps"
+    set_action:
+      - lambda: |-
+          // Update the target range for the oscillate script
+          id(stepper_target_range_variable) = x;
+          ESP_LOGD("number", "Stepper Target Range set to: %d", (int)x);
+
+switch:
+  - platform: template
+    name: "Oscillate Stepper Control"
+    id: oscillate_stepper_control
+    optimistic: true
+    turn_on_action:
+      - script.execute: oscillate_stepper1
+    turn_off_action:
+      - script.stop: oscillate_stepper1
+
+globals:
+  - id: stepper_target_range_variable
+    type: int
+    restore_value: no
+    initial_value: '0'
