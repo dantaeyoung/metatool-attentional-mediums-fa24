@@ -96,3 +96,26 @@ a {
 a:hover {
   color: #999999;
 }
+
+.gallery {
+  margin: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: flex-start;
+}
+
+.gallery img {
+  width: 150px;
+  height: 238px;
+  border: 1px solid #444444;
+  transition: box-shadow 0.3s ease;
+}
+
+.gallery img:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.gallery a {
+  text-decoration: none;
+}
