@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
 body {
   font-family: "EB Garamond", serif;
@@ -71,4 +72,11 @@ body {
   border: 2px dotted rgb(192, 18, 18);
   padding: 45px;
   text-align: left;
+}
+
+.edu-au-vic-wa-nt-guides-unique {
+  font-family: "Edu AU VIC WA NT Guides", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400; /* You can use numeric values like 400 or 700, or 'bold', 'normal' */
+  font-style: normal;
 }
