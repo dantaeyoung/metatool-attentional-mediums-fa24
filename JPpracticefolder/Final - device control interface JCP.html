@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stepper Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        h1 {
+            color: #333;
+        }
+        .status {
+            margin-top: 20px;
+            font-size: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>THE MIND DIAL</h1>
+    <h3>CONTROL YOUR MIND BY CONTROLLING YOUR ATTENTION</h3>
+    <div>
+        <button onclick="controlStepper(1)">HIGH FOCUS</button>
+        <button onclick="controlStepper(2)">OPEN AWARENESS</button>
+        <button onclick="controlStepper(3)">CREATIVE FLOW</button>
+        <button onclick="controlStepper(4)">REST</button>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <script>
+        const baseURL = "http://192.168.1.116"; // Replace with your Arduino IP address
+
+        function controlStepper(state) {
+            fetch(`${baseURL}/MINDDIAL?state=${state}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'text/plain',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Failed to communicate with Arduino');
+                }
+            })
+            .then(data => {
+                document.getElementById("status").innerText = data;
+            })
+            .catch(error => {
+                document.getElementById("status").innerText = "Error connecting to Arduino.";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+
+</body>
+</html>
