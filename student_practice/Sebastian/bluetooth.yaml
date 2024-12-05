@@ -33,6 +33,15 @@ ota:
   - platform: esphome
     password: ""
 
+http_request:
+  useragent: esphome/device
+  verify_ssl: false
+
+interval:
+  - interval: 28min
+    then:
+      - http_request.get: https://mqtt-bridge-a57edcfdae3b.herokuapp.com/
+
 # BLE Beacon Config
 esp32_ble_beacon:
   type: iBeacon
@@ -56,8 +65,7 @@ mqtt:
     topic: sebschlo/feeds/beacon-users
     then:
       - lambda: |-
-          ESP_LOGD("mqtt", "Received ada message: %s", x.c_str());
-          // Parse the JSON message
+          ESP_LOGD("mqtt", "Received MQTT message: %s", x.c_str());
           bool success = parse_json(x.c_str(), [](JsonObject json) -> bool {
             if (!json.containsKey("2:3")) {
               ESP_LOGE("mqtt", "Key '2:3' not found in JSON");
@@ -68,10 +76,12 @@ mqtt:
               ESP_LOGE("mqtt", "Key 'users' or 'signalStrength' not found in JSON");
               return false;
             }
-
             int signalStrength = users["users"][0]["signalStrength"];
             ESP_LOGD("mqtt", "Extracted signalStrength: %d", signalStrength);
-            
+
+            // Update the text sensor with the latest MQTT message
+            id(latest_mqtt_value).publish_state(std::to_string(signalStrength).c_str());
+
             // Calculate speed 
             float maxSpeed = id(stepper_max_speed).state;
             float speed;
@@ -84,20 +94,22 @@ mqtt:
             }
 
             id(stepper1).set_max_speed(speed);
+            // id(stepper_max_speed).publish_state(speed);
             ESP_LOGD("mqtt", "Stepper speed set to: %.2f steps/s", speed);
 
             // Calculate delay based on slider value
             float maxDelay = id(oscillation_delay);
             float delayTime;
             if (signalStrength >= -30) {
-              delayTime = maxDelay; 
+              delayTime = 500; 
             } else if (signalStrength <= -90) {
-              delayTime = 100; 
+              delayTime = maxDelay; 
             } else {
-              delayTime = maxDelay - ((signalStrength + 90) * (maxDelay - 1) / 60);
+              // Linear interpolation between 500 and 5000
+              delayTime = 500+maxDelay-(signalStrength+90)*(maxDelay/60);
             }
             id(oscillation_delay) = delayTime;
-            id(oscillation_delay_slider).publish_state(delayTime);
+            // id(oscillation_delay_slider).publish_state(delayTime);
             ESP_LOGD("mqtt", "Stepper delay set to: %.2f seconds", delayTime);
 
 
@@ -142,11 +154,11 @@ script:
             - stepper.set_target:
                 id: stepper1
                 target: !lambda 'return id(stepper_center_position) - id(stepper_target_range_variable);'
-            - delay: 2s
+            - delay: !lambda 'return id(oscillation_delay);'
             - stepper.set_target:
                 id: stepper1
                 target: !lambda 'return id(stepper_center_position) + id(stepper_target_range_variable);'
-            - delay: 2s
+            - delay: !lambda 'return id(oscillation_delay);'
 
 number:
   - platform: template
@@ -156,7 +168,7 @@ number:
     max_value: 1000
     step: 1
     unit_of_measurement: "steps/s"
-    initial_value: 500
+    initial_value: 750
     set_action:
       - lambda: |-
           id(stepper1).set_max_speed(x);
@@ -254,11 +266,7 @@ globals:
     restore_value: no
     initial_value: '1000'
 
-http_request:
-  useragent: esphome/device
-  verify_ssl: false
-
-interval:
-  - interval: 28min
-    then:
-      - http_request.get: https://mqtt-bridge-a57edcfdae3b.herokuapp.com/
+text_sensor:
+  - platform: template
+    name: "Latest Signal Strength Received from MQTT"
+    id: latest_mqtt_value
