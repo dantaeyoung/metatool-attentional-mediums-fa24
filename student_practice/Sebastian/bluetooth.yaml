@@ -36,6 +36,7 @@ esp32_ble_beacon:
   major: 2
   minor: 3
   measured_power: -59
+  # tx_power: -12
 
 # MQTT Configuration
 mqtt:
@@ -68,8 +69,8 @@ mqtt:
             ESP_LOGD("mqtt", "Extracted signalStrength: %d", signalStrength);
             
             // Calculate speed 
+            float maxSpeed = id(stepper_max_speed).state;
             float speed;
-            float maxSpeed = 10.0;
             if (signalStrength >= -30) {
               speed = maxSpeed;
             } else if (signalStrength <= -90) {
@@ -80,6 +81,22 @@ mqtt:
 
             id(stepper1).set_max_speed(speed);
             ESP_LOGD("mqtt", "Stepper speed set to: %.2f steps/s", speed);
+
+            // Calculate delay based on slider value
+            float maxDelay = id(oscillation_delay);
+            float delayTime;
+            if (signalStrength >= -30) {
+              delayTime = maxDelay; 
+            } else if (signalStrength <= -90) {
+              delayTime = 100; 
+            } else {
+              delayTime = maxDelay - ((signalStrength + 90) * (maxDelay - 1) / 60);
+            }
+            id(oscillation_delay) = delayTime;
+            id(oscillation_delay_slider).publish_state(delayTime);
+            ESP_LOGD("mqtt", "Stepper delay set to: %.2f seconds", delayTime);
+
+
             return true; // Ensure the lambda returns a boolean
           });
 
@@ -107,8 +124,8 @@ stepper:
     step_pin: GPIO11
     dir_pin: GPIO10
     max_speed: 100 steps/s
-    acceleration: 1000 steps/s^2
-    deceleration: 1000 steps/s^2
+    acceleration: 1500 steps/s^2
+    deceleration: 1500 steps/s^2
 
 script:
   - id: oscillate_stepper1
@@ -120,12 +137,118 @@ script:
           then:
             - stepper.set_target:
                 id: stepper1
-                target: !lambda 'return -id(stepper_target_range_variable);'
+                target: !lambda 'return id(stepper_center_position) - id(stepper_target_range_variable);'
             - delay: 2s
             - stepper.set_target:
                 id: stepper1
-                target: !lambda 'return id(stepper_target_range_variable);'
+                target: !lambda 'return id(stepper_center_position) + id(stepper_target_range_variable);'
             - delay: 2s
+
+number:
+  - platform: template
+    name: "Stepper Max Speed"
+    id: stepper_max_speed
+    min_value: 0
+    max_value: 1000
+    step: 1
+    unit_of_measurement: "steps/s"
+    initial_value: 500
+    set_action:
+      - lambda: |-
+          id(stepper1).set_max_speed(x);
+          id(stepper_max_speed).publish_state(x);
+
+  - platform: template
+    name: "Stepper Acceleration"
+    id: stepper_acceleration
+    min_value: 0
+    max_value: 5000
+    step: 10
+    unit_of_measurement: "steps/s^2"
+    initial_value: 3000
+    set_action:
+      - lambda: |-
+          id(stepper1).set_acceleration(x);
+          id(stepper_acceleration).publish_state(x);
+
+  - platform: template
+    name: "Stepper Deceleration"
+    id: stepper_deceleration
+    min_value: 0
+    max_value: 5000
+    step: 10
+    unit_of_measurement: "steps/s^2"
+    initial_value: 3000
+    set_action:
+      - lambda: |-
+          id(stepper1).set_deceleration(x);
+          id(stepper_deceleration).publish_state(x);
+
+  - platform: template
+    name: "Stepper Target Range"
+    id: stepper_target_range
+    min_value: 0
+    max_value: 30
+    step: 1
+    unit_of_measurement: "steps"
+    initial_value: 7
+    set_action:
+      - lambda: |-
+          id(stepper_target_range_variable) = x;
+          ESP_LOGD("number", "Stepper Target Range set to: %d", (int)x);
+          id(stepper_target_range).publish_state(x);
+
+  - platform: template
+    name: "Stepper Center Position"
+    id: stepper_center_position_slider
+    min_value: -110
+    max_value: 110
+    step: 1
+    unit_of_measurement: "steps"
+    set_action:
+      - lambda: |-
+          id(stepper_center_position) = x;
+          id(stepper1).set_target(x);
+          ESP_LOGD("number", "Stepper Center Position set to: %d", (int)x);
+          id(stepper_center_position_slider).publish_state(x);
+
+  - platform: template
+    name: "Oscillation Delay"
+    id: oscillation_delay_slider
+    min_value: 100
+    max_value: 5000
+    step: 100
+    unit_of_measurement: "ms"
+    initial_value: 1000
+    set_action:
+      - lambda: |-
+          id(oscillation_delay) = x;
+          ESP_LOGD("number", "Oscillation Delay set to: %d ms", (int)x);
+          id(oscillation_delay_slider).publish_state(x);
+
+switch:
+  - platform: template
+    name: "Oscillate Stepper Control"
+    id: oscillate_stepper_control
+    optimistic: true
+    turn_on_action:
+      - script.execute: oscillate_stepper1
+    turn_off_action:
+      - script.stop: oscillate_stepper1
+
+globals:
+  - id: stepper_target_range_variable
+    type: int
+    restore_value: no
+    initial_value: '7'
+  - id: stepper_center_position
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: oscillation_delay
+    type: float
+    restore_value: no
+    initial_value: '1000'
 
 # http_request:
 #   useragent: esphome/device
@@ -145,66 +268,3 @@ script:
 #                   args:
 #                     - response->status_code
 #                     - response->duration_ms
-
-number:
-  - platform: template
-    name: "Stepper Max Speed"
-    id: stepper_max_speed
-    min_value: 0
-    max_value: 250
-    step: 1
-    unit_of_measurement: "steps/s"
-    set_action:
-      - lambda: |-
-          id(stepper1).set_max_speed(x);
-
-  - platform: template
-    name: "Stepper Acceleration"
-    id: stepper_acceleration
-    min_value: 0
-    max_value: 2000
-    step: 10
-    unit_of_measurement: "steps/s^2"
-    set_action:
-      - lambda: |-
-          id(stepper1).set_acceleration(x);
-
-  - platform: template
-    name: "Stepper Deceleration"
-    id: stepper_deceleration
-    min_value: 0
-    max_value: 2000
-    step: 10
-    unit_of_measurement: "steps/s^2"
-    set_action:
-      - lambda: |-
-          id(stepper1).set_deceleration(x);
-
-  - platform: template
-    name: "Stepper Target Range"
-    id: stepper_target_range
-    min_value: 0
-    max_value: 1000
-    step: 10
-    unit_of_measurement: "steps"
-    set_action:
-      - lambda: |-
-          // Update the target range for the oscillate script
-          id(stepper_target_range_variable) = x;
-          ESP_LOGD("number", "Stepper Target Range set to: %d", (int)x);
-
-switch:
-  - platform: template
-    name: "Oscillate Stepper Control"
-    id: oscillate_stepper_control
-    optimistic: true
-    turn_on_action:
-      - script.execute: oscillate_stepper1
-    turn_off_action:
-      - script.stop: oscillate_stepper1
-
-globals:
-  - id: stepper_target_range_variable
-    type: int
-    restore_value: no
-    initial_value: '0'
