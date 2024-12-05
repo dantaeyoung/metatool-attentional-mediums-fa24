@@ -1,5 +1,9 @@
 esphome:
   name: esp32-ble-beacon
+  on_boot:
+    priority: -10
+    then:
+      - http_request.get: https://mqtt-bridge-a57edcfdae3b.herokuapp.com/
 
 esp32:
   board: esp32-s3-devkitc-1
@@ -250,21 +254,11 @@ globals:
     restore_value: no
     initial_value: '1000'
 
-# http_request:
-#   useragent: esphome/device
-#   verify_ssl: false
+http_request:
+  useragent: esphome/device
+  verify_ssl: false
 
-# interval:
-#   - interval: 60s
-#     then:
-#       - http_request.get:
-#           url: http://herokuapp.com
-#           headers:
-#             Content-Type: application/json
-#           on_response:
-#             then:
-#               - logger.log:
-#                   format: "Response status: %d, Duration: %u ms"
-#                   args:
-#                     - response->status_code
-#                     - response->duration_ms
+interval:
+  - interval: 28min
+    then:
+      - http_request.get: https://mqtt-bridge-a57edcfdae3b.herokuapp.com/
