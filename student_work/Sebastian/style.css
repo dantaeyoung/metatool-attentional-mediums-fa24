@@ -1,31 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
 body {
   font-family: "EB Garamond", serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   margin: 0px;
-  background-color: rgb(230,230,230)
+  background-color: rgb(230, 230, 230);
+}
+
+@page {
+  size: A4 landscape;
+}
+
+.container {
+  page-break-after: always;
+}
+
+h1,
+h2 {
+  text-align: center;
+}
+
+.photos-diagrams {
+  border: 1px dashed black;
+  height: 8in;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.description,
+.attention-theory {
+  margin: 20px 0;
 }
 
 #bodycontainer {
   background-color: white;
-	max-width: 600px;
-	height: 100%;
-	min-height: 100vh;
+  max-width: 600px;
+  height: 100%;
+  min-height: 100vh;
   margin: 50px auto;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	gap: 40px;
-  border: 3px dashed rgb(30,30,30);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+  border: 3px dashed rgb(30, 30, 30);
   padding: 40px;
   border-radius: 100px;
 }
 
-
 .classheader {
-    text-align: center;
+  text-align: center;
 }
 
 .classheader .title {
@@ -49,7 +76,6 @@ body {
 
 .project_image_caption {
 }
-
 
 .classinfo {
   text-align: center;
