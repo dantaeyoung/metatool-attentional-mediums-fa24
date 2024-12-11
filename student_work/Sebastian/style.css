@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+body {
+  font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0px;
+  background-color: rgb(230,230,230)
+}
+
+#bodycontainer {
+  background-color: white;
+	max-width: 600px;
+	height: 100%;
+	min-height: 100vh;
+  margin: 50px auto;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 40px;
+  border: 3px dashed rgb(30,30,30);
+  padding: 40px;
+  border-radius: 100px;
+}
+
+
+.classheader {
+    text-align: center;
+}
+
+.classheader .title {
+  font-size: 2.2em;
+  font-weight: bold;
+}
+
+.project_images {
+  display: flex;
+  flex-direction: column;
+}
+
+.project_image {
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.project_image img {
+  max-width: 100%;
+}
+
+.project_image_caption {
+}
+
+
+.classinfo {
+  text-align: center;
+  font-size: 0.8em;
+  margin: 20px 0px 40px 0px;
+}
+
+.images {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.images img {
+  max-width: 100%;
+}
+
+.images-caption {
+  font-style: italic;
+  text-align: center;
+  margin: 40px;
+}
+
+.rounded-rectangle {
+  border: 2px dashed black;
+  padding: 40px;
+  border-radius: 150px;
+  text-align: center;
+}
+
+.description {
+  text-align: center;
+}
+
+.rectangle {
+  border: 2px dotted rgb(192, 18, 18);
+  padding: 45px;
+  text-align: left;
+}
+
+a {
+  color: #444444;
+}
+a:hover {
+  color: #999999;
+}
+
+.gallery {
+  margin: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: flex-start;
+}
+
+.gallery img {
+  width: 150px;
+  height: 238px;
+  border: 1px solid #444444;
+  transition: box-shadow 0.3s ease;
+}
+
+.gallery img:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.gallery a {
+  text-decoration: none;
+}
