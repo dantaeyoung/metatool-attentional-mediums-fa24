@@ -1,0 +1,41 @@
+body {
+    background-color: rgb(240, 240, 240);
+}
+
+.container {
+    padding: 40px;
+}
+  
+.day-report {
+    font-size: 1.1em;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px dashed #777;
+    background-color: #FFFFFF;
+    color: rgb(0, 0, 0);
+    font-weight: normal;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.date {
+    color: rgb(150, 150, 150);
+    font-style: italic;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.title {
+    font-weight: bold;
+    color: rgb(34, 85, 170);
+    font-size: 1.2em;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.description {
+    color: rgb(50, 50, 50);
+    font-size: 1em;
+    line-height: 1.6;
+}

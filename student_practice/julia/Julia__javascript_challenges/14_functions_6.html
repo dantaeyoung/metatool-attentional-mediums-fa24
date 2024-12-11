@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="jc.css" rel="stylesheet" />
+</head>
+<body>
+
+  <h1>Javascript Challenges</h1>
+  <h3>Functions: Part 6</h3>
+  <p>And so using Javascript, we can change a value and update HTML at the same time -- creating a <em>counter</em>. </p>
+  <h4>Challenge: Can you make a 'decrementX' button and function that subtracts from the counter?</h4>
+
+  <button onclick="decrementX()">Decrement x</button>
+
+  <div id="x-value">0</div>
+
+<script>
+
+  var x = 0;
+
+  function decrementX() {
+    x = x - 1;
+    console.log(x);
+    document.getElementById('x-value').innerText = x;
+  }
+
+
+
+</script>
+
+
+</body>
+</html>
+
