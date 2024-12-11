@@ -96,3 +96,7 @@ a {
 a:hover {
   color: #999999;
 }
+
+p {
+  white-space: pre-line;
+}
