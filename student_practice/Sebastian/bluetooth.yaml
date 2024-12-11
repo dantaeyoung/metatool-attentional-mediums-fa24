@@ -1,0 +1,272 @@
+esphome:
+  name: esp32-ble-beacon
+  on_boot:
+    priority: -10
+    then:
+      - http_request.get: https://mqtt-bridge-a57edcfdae3b.herokuapp.com/
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  level: VERBOSE
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Metatool1 Fallback Hotspot"
+    password: "DJjwCeDQqMD1"
+
+captive_portal:
+
+web_server:
+  port: 80
+
+ota:
+  - platform: esphome
+    password: ""
+
+http_request:
+  useragent: esphome/device
+  verify_ssl: false
+
+interval:
+  - interval: 28min
+    then:
+      - http_request.get: https://mqtt-bridge-a57edcfdae3b.herokuapp.com/
+
+# BLE Beacon Config
+esp32_ble_beacon:
+  type: iBeacon
+  uuid: !secret ble_beacon_uuid
+  major: 2
+  minor: 3
+  measured_power: -59
+  # tx_power: -12
+
+# MQTT Configuration
+mqtt:
+  broker: io.adafruit.com
+  username: sebschlo
+  password: !secret mqtt_password
+  discovery: false
+  discover_ip: false
+  topic_prefix: sebschlo/feeds
+  log_topic: null
+  keepalive: 5s
+  on_message:
+    topic: sebschlo/feeds/beacon-users
+    then:
+      - lambda: |-
+          ESP_LOGD("mqtt", "Received MQTT message: %s", x.c_str());
+          bool success = parse_json(x.c_str(), [](JsonObject json) -> bool {
+            if (!json.containsKey("2:3")) {
+              ESP_LOGE("mqtt", "Key '2:3' not found in JSON");
+              return false;
+            }
+            JsonObject users = json["2:3"];
+            if (!users.containsKey("users") || !users["users"][0].containsKey("signalStrength")) {
+              ESP_LOGE("mqtt", "Key 'users' or 'signalStrength' not found in JSON");
+              return false;
+            }
+            int signalStrength = users["users"][0]["signalStrength"];
+            ESP_LOGD("mqtt", "Extracted signalStrength: %d", signalStrength);
+
+            // Update the text sensor with the latest MQTT message
+            id(latest_mqtt_value).publish_state(std::to_string(signalStrength).c_str());
+
+            // Calculate speed 
+            float maxSpeed = id(stepper_max_speed).state;
+            float speed;
+            if (signalStrength >= -30) {
+              speed = maxSpeed;
+            } else if (signalStrength <= -90) {
+              speed = 0.0; // Stop
+            } else {
+              speed = (signalStrength + 90) * (maxSpeed / 60);
+            }
+
+            id(stepper1).set_max_speed(speed);
+            // id(stepper_max_speed).publish_state(speed);
+            ESP_LOGD("mqtt", "Stepper speed set to: %.2f steps/s", speed);
+
+            // Calculate delay based on slider value
+            float maxDelay = id(oscillation_delay);
+            float delayTime;
+            if (signalStrength >= -30) {
+              delayTime = 500; 
+            } else if (signalStrength <= -90) {
+              delayTime = maxDelay; 
+            } else {
+              // Linear interpolation between 500 and 5000
+              delayTime = 500+maxDelay-(signalStrength+90)*(maxDelay/60);
+            }
+            id(oscillation_delay) = delayTime;
+            // id(oscillation_delay_slider).publish_state(delayTime);
+            ESP_LOGD("mqtt", "Stepper delay set to: %.2f seconds", delayTime);
+
+
+            return true; // Ensure the lambda returns a boolean
+          });
+
+          if (!success) {
+            ESP_LOGE("mqtt", "Failed to parse JSON");
+          } else {
+            // Check if the oscillate stepper control switch is on
+            if (id(oscillate_stepper_control).state) {
+              // Start oscillating the stepper
+              id(oscillate_stepper1).execute();
+            } else {
+              ESP_LOGD("mqtt", "Oscillation is disabled by the switch");
+            }
+          }
+  birth_message:
+    topic: sebschlo/feeds/beacon-users
+    payload: "Connected successfully"
+  will_message:
+    topic: sebschlo/feeds/beacon-users
+    payload: "Disconnected"
+
+stepper:
+  - platform: a4988
+    id: stepper1
+    step_pin: GPIO11
+    dir_pin: GPIO10
+    max_speed: 100 steps/s
+    acceleration: 1500 steps/s^2
+    deceleration: 1500 steps/s^2
+
+script:
+  - id: oscillate_stepper1
+    mode: single
+    then:
+      - while:
+          condition:
+            lambda: 'return true;'
+          then:
+            - stepper.set_target:
+                id: stepper1
+                target: !lambda 'return id(stepper_center_position) - id(stepper_target_range_variable);'
+            - delay: !lambda 'return id(oscillation_delay);'
+            - stepper.set_target:
+                id: stepper1
+                target: !lambda 'return id(stepper_center_position) + id(stepper_target_range_variable);'
+            - delay: !lambda 'return id(oscillation_delay);'
+
+number:
+  - platform: template
+    name: "Stepper Max Speed"
+    id: stepper_max_speed
+    min_value: 0
+    max_value: 1000
+    step: 1
+    unit_of_measurement: "steps/s"
+    initial_value: 750
+    set_action:
+      - lambda: |-
+          id(stepper1).set_max_speed(x);
+          id(stepper_max_speed).publish_state(x);
+
+  - platform: template
+    name: "Stepper Acceleration"
+    id: stepper_acceleration
+    min_value: 0
+    max_value: 5000
+    step: 10
+    unit_of_measurement: "steps/s^2"
+    initial_value: 3000
+    set_action:
+      - lambda: |-
+          id(stepper1).set_acceleration(x);
+          id(stepper_acceleration).publish_state(x);
+
+  - platform: template
+    name: "Stepper Deceleration"
+    id: stepper_deceleration
+    min_value: 0
+    max_value: 5000
+    step: 10
+    unit_of_measurement: "steps/s^2"
+    initial_value: 3000
+    set_action:
+      - lambda: |-
+          id(stepper1).set_deceleration(x);
+          id(stepper_deceleration).publish_state(x);
+
+  - platform: template
+    name: "Stepper Target Range"
+    id: stepper_target_range
+    min_value: 0
+    max_value: 30
+    step: 1
+    unit_of_measurement: "steps"
+    initial_value: 7
+    set_action:
+      - lambda: |-
+          id(stepper_target_range_variable) = x;
+          ESP_LOGD("number", "Stepper Target Range set to: %d", (int)x);
+          id(stepper_target_range).publish_state(x);
+
+  - platform: template
+    name: "Stepper Center Position"
+    id: stepper_center_position_slider
+    min_value: -110
+    max_value: 110
+    step: 1
+    unit_of_measurement: "steps"
+    set_action:
+      - lambda: |-
+          id(stepper_center_position) = x;
+          id(stepper1).set_target(x);
+          ESP_LOGD("number", "Stepper Center Position set to: %d", (int)x);
+          id(stepper_center_position_slider).publish_state(x);
+
+  - platform: template
+    name: "Oscillation Delay"
+    id: oscillation_delay_slider
+    min_value: 100
+    max_value: 5000
+    step: 100
+    unit_of_measurement: "ms"
+    initial_value: 1000
+    set_action:
+      - lambda: |-
+          id(oscillation_delay) = x;
+          ESP_LOGD("number", "Oscillation Delay set to: %d ms", (int)x);
+          id(oscillation_delay_slider).publish_state(x);
+
+switch:
+  - platform: template
+    name: "Oscillate Stepper Control"
+    id: oscillate_stepper_control
+    optimistic: true
+    turn_on_action:
+      - script.execute: oscillate_stepper1
+    turn_off_action:
+      - script.stop: oscillate_stepper1
+
+globals:
+  - id: stepper_target_range_variable
+    type: int
+    restore_value: no
+    initial_value: '7'
+  - id: stepper_center_position
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: oscillation_delay
+    type: float
+    restore_value: no
+    initial_value: '1000'
+
+text_sensor:
+  - platform: template
+    name: "Latest Signal Strength Received from MQTT"
+    id: latest_mqtt_value
