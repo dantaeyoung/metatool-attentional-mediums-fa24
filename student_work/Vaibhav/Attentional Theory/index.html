@@ -36,44 +36,182 @@
       .attention-theory {
         margin: 20px 0;
       }
+
+      .gaze-grid-container {
+        width: 600px;  /* Match the max-width of the body container */
+        height: 600px; /* Make it a perfect square */
+        border: 2px solid black;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        margin: 30px auto; /* Center the grid and add some vertical spacing */
+      }
+
+      .gaze-grid-cell {
+        border: 1px solid rgba(0,0,0,0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .gaze-grid-cell img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.3s ease;
+      }
+
+      .gaze-hover-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        text-align: center;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .gaze-grid-cell:hover .gaze-hover-text {
+        opacity: 1;
+      }
+
+      .gaze-grid-cell:hover img {
+        opacity: 0.3;
+      }
     </style>
   </head>
   <body>
     <div id="bodycontainer">
       <h1>Gaze Tracker</h1>
       <h2>Mapping and Shaping Attention during OBLIVIAN</h2>
+      <iframe class="responsive-video" 
+              src="https://www.youtube.com/embed/sQUsW3Dzeb0?si=h4HecBicwQNe0HxB&autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&rel=0" 
+              title="YouTube video player" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin" 
+              allowfullscreen>
+      </iframe>
 
-      <div class="project_description">
-        <h3>Description</h3>
-        <p>Gaze Tracker is a device that tracks and maps gaze directions while commuting. By analyzing head position and mapping it to a 3x3 visual grid, it helps users identify gaze patterns. The device provides real-time feedback to encourage users to engage more attentively with their surroundings.</p>
-      </div>
-
-      <div class="project_images">
-        <h3>Photos/Diagrams</h3>
-        <div class="project_image">
-          <img src="01-FRANZ-ERHARD-WALTHER-1968.jpg" />
-          <div class="project_image_caption">
-            Franz Erhard Walther, ‘Handlungsstücke’ (Action Pieces)
-          </div>
-        </div>
-        <div class="project_image">
-        <img src="coffee_seeks_its_own_level.jpg" />
-          <div class="project_image_caption">
-            <a href="http://www.allanwexlerstudio.com/projects/coffee-seeks-its-own-level">Allan Wexler, Coffee Seeks Its Own Level, 1990</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="attention-theory">
+      <div class="attentional-theory-intro">
         <h3>Attentional Theory - Attentional Disconnection in the Modern Age</h3>
         <p>In the past, before screens dominated our lives, commutes encouraged observation and exploration. Gaze patterns were varied, directed outward toward the environment rather than downward. Over time, the rise of devices has reshaped muscle memory and attentional habits, resulting in a predominant downward gaze. This project seeks to undo these patterns, reteaching attention as a deliberate and interactive practice.</p>
-        
+      </div>
+      
+      <div class="evolution-images">
+        <h3>Evolution Over Time</h3>
+        <div style="display: flex; justify-content: space-between;">
+          <img src="images/evolution-1.png" alt="Evolution 1" style="max-width: 12%;">
+          <img src="images/evolution-2.png" alt="Evolution 2" style="max-width: 12%;">
+          <img src="images/evolution-3.png" alt="Evolution 3" style="max-width: 12%;">
+          <img src="images/evolution-4.png" alt="Evolution 4" style="max-width: 12%;">
+          <img src="images/evolution-5.png" alt="Evolution 5" style="max-width: 12%;">
+          <img src="images/evolution-6.png" alt="Evolution 6" style="max-width: 12%;">
+          <img src="images/evolution-7.png" alt="Evolution 7" style="max-width: 12%;">
+          <img src="images/evolution-8.png" alt="Evolution 8" style="max-width: 12%;">
+        </div>
+      </div>
+      <iframe class="responsive-video" 
+              src="https://www.youtube.com/embed/A5vTY8isB84?si=NaEZ4pCLgCxcevTF&autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&rel=0" 
+              title="YouTube video player" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin" 
+              allowfullscreen>
+      </iframe>
+      <div class="attention-theory"> 
         <h3>Intervening with GazeTracker</h3>
+        <p>Gaze Tracker is a device that tracks and maps gaze directions while commuting. By analyzing head position and mapping it to a 3x3 visual grid, it helps users identify gaze patterns. The device provides real-time feedback to encourage users to engage more attentively with their surroundings.</p>
         <p>GazeTracker intervenes in this unconscious habit by creating a feedback loop that encourages intentional focus. By tracking gaze patterns on a 3x3 grid and logging time spent in different zones, it highlights habitual downward gazing and its impact. The device provides real-time feedback to redirect attention, prompting engagement with surroundings.</p>
+      </div> 
+      <div class="gaze-grid-container">
+        <div class="gaze-grid-cell">
+            <img src="images/TOP LEFT.png" alt="Top Left">
+            <div class="gaze-hover-text">Top Left</div>
+        </div>
+        <div class="gaze-grid-cell">
+            <img src="images/TOP CENTER.png" alt="Top Center">
+            <div class="gaze-hover-text">Top Center</div>
+        </div>
+        <div class="gaze-grid-cell">
+            <img src="images/TOP RIGHT.png" alt="Top Right">
+            <div class="gaze-hover-text">Top Right</div>
+        </div>
+        <div class="gaze-grid-cell">
+            <img src="images/MIDDLE LEFT.png" alt="Middle Left">
+            <div class="gaze-hover-text">Middle Left</div>
+        </div>
+        <div class="gaze-grid-cell">
+            <img src="images/MIDDLE CENTER.png" alt="Middle Center">
+            <div class="gaze-hover-text">Middle Center</div>
+        </div>
+        <div class="gaze-grid-cell">
+            <img src="images/MIDDLE RIGHT.png" alt="Middle Right">
+            <div class="gaze-hover-text">Middle Right</div>
+        </div>
+        <div class="gaze-grid-cell">
+            <img src="images/BOTTOM LEFT.png" alt="Bottom Left">
+            <div class="gaze-hover-text">Bottom Left</div>
+        </div>
+        <div class="gaze-grid-cell">
+            <img src="images/BOTTOM CENTER.png" alt="Bottom Middle">
+            <div class="gaze-hover-text">Bottom Center</div>
+        </div>
+        <div class="gaze-grid-cell">
+            <img src="images/BOTTOM RIGHT.png" alt="Bottom Right">
+            <div class="gaze-hover-text">Bottom Right</div>
+        </div>
+      </div>
+
         <h3>Attention as a Trainable and Moldable Process</h3>
         <p>Attention is imagined as both a muscle and clay—trainable through exercise and moldable through repeated awareness. Each notification serves as a reminder to look up, actively reshaping my relationship with the environment. Through this feedback system, GazeTracker fosters a playful yet disciplined approach to attention, blending technology and urban spaces into a partnership for cultivating spatial awareness and curiosity.</p>
         
+      <div class="learn-more-rectangle" onclick="window.location.href='https://vuj2000.github.io/Meta-Tool_INTERNAL/WEBSITE/Gaze%20Tracker%20Website/index.html'">
+          CLICK TO LEARN MORE ABOUT
+          <br>
+          <span>GAZE TRACKER - Mapping and Shaping Attention during OBLIVIAN</span>
       </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('.responsive-video');
+            
+            const videoObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    const iframe = entry.target;
+                    
+                    if (entry.isIntersecting) {
+                        // Video is at least 50% in view
+                        if (entry.intersectionRatio >= 0.5) {
+                            // Play video
+                            iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                        }
+                    } else {
+                        // Video is not in view
+                        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                    }
+                });
+            }, {
+                threshold: [0, 0.5, 1] // Trigger at different intersection levels
+            });
+
+            // Modify iframes to enable JavaScript API
+            videos.forEach(video => {
+                video.setAttribute('enablejsapi', '1');
+                video.src += '&enablejsapi=1';
+                videoObserver.observe(video);
+            });
+        });
+    </script>
   </body>
 </html>

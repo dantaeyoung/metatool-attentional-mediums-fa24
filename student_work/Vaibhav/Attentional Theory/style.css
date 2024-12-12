@@ -101,10 +101,127 @@ body {
   background-color: rgb(255,245,245);
 }
 
+.responsive-video {
+  width: 100%; /* Ensures spacing within the container */
+  height: auto;
+  aspect-ratio: 16 / 9;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px; /* Optional for rounded corners */
+}
+
+.evolution-images {
+  margin-bottom: 30px;
+}
+
 a {
   color: #444444;
   text-decoration: none;
 }
 a:hover {
   color: #999999;
+}
+
+.gaze-grid-container {
+    width: 700px;  /* Full width of the body container */
+    height: 700px; /* Make it a perfect square */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.gaze-grid-cell {
+    border: 1px solid rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.gaze-grid-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.1;
+    transition: all 0.3s ease;
+    filter: brightness(1);
+}
+
+.gaze-hover-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.gaze-grid-cell:hover img {
+    opacity: 1;
+}
+
+.gaze-grid-cell:hover .gaze-hover-text {
+    opacity: 1;
+}
+
+.learn-more-rectangle {
+    width: 700px;  /* Keep these at the previous width */
+    background-color: rgb(30,30,30);
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    font-size: 1.3em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    font-weight: 500;
+    box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    margin: 0 auto;
+}
+
+.learn-more-rectangle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: all 0.6s ease;
+}
+
+.learn-more-rectangle:hover::before {
+    left: 100%;
+}
+
+.learn-more-rectangle:hover {
+    background-color: rgb(40,40,40);
+    transform: translateY(-2px);
+    box-shadow: 0 -5px 8px rgba(0,0,0,0.2);
+}
+
+.learn-more-rectangle:active {
+    transform: translateY(1px);
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+.learn-more-rectangle span {
+    font-size: 0.6em;
+    font-style: italic;
+    opacity: 0.8;
 }
