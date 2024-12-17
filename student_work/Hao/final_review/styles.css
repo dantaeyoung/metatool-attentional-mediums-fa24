@@ -104,6 +104,14 @@ h2 {
     color: rgb(143, 255, 78);
     z-index: 2;
 }
+p {
+    background-color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    width: 30vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
 #large {
     font-size: 5rem;
     font-weight: 200;
