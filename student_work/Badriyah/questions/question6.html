@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>the sheath of a sword.. <br><br>or the skin behind a lion's claw.. <br><br>where a dangerous thing rests,
+            and is
+            concealed,<br><br>
+            until it is ready to be used again.<br><br></h1>
+        <div class="options">
+            <P>L</P>
+            <button class="option-button" onclick="nextQuestion()"></button>
+            <button class="option-button" onclick="nextQuestion()"></button>
+            <button class="option-button" onclick="wrongAnswer()"></button>
+            <button class="option-button" onclick="wrongAnswer()"></button>
+            <button class="option-button" onclick="nextQuestion()"></button>
+            <P>R</P>
+        </div>
+    </div>
+
+    <script>
+        function wrongAnswer() {
+            window.location.href = "seriously.html";
+        }
+
+        function nextQuestion() {
+            window.location.href = "question7.html";
+        }
+    </script>
+</body>
+
+</html>

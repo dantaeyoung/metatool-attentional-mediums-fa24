@@ -1,0 +1,85 @@
+/* Apply Roboto Mono font with thin weight */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap');
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: black;
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Quiz container styling */
+.quiz-container {
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 600px;
+    background: black;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Title styling */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-transform: lowercase;
+    font-weight: 300;
+    /* Thin line weight */
+    color: white;
+}
+
+/* Options container styling */
+.options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* Option buttons styling */
+.option-button {
+    padding: 0.8rem 2rem;
+    border: 1px solid white;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    background-color: black;
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    text-transform: lowercase;
+    font-weight: 300;
+    /* Thin line weight */
+    cursor: pointer;
+}
+
+.option-button:hover {
+    background-color: white;
+    color: black;
+    border-color: red;
+}
+
+/* Result text styling */
+.result {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    text-transform: lowercase;
+    color: green;
+    font-weight: 300;
+    /* Thin line weight */
+}
+
+html {
+    cursor: url('../assets/cursors/cursor.png'), auto;
+}
+
+/* Change cursor for clickable elements (links and buttons) */
+a:hover,
+button:hover {
+    cursor: url('../assets/cursors/redcursor.png'), pointer;
+}

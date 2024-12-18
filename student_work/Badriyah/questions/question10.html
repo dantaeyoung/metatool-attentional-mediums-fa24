@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reflections</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto Mono', monospace;
+            background-color: black;
+            color: white;
+            padding: 3rem;
+            margin-top: 30%;
+            /* Increased overall padding */
+        }
+
+        .container {
+            max-width: 800px;
+            /* Increased max width */
+            text-align: left;
+            padding: 3rem;
+            /* Added padding inside the container */
+
+            border-radius: 15px;
+            background-color: black;
+            /* Optional subtle background */
+        }
+
+        .line {
+            opacity: 0;
+            font-size: 1.4rem;
+            /* Slightly larger font size */
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            /* Increased spacing between lines */
+            animation: fade-in 1s forwards;
+        }
+
+        /* Add an extra second delay between each line */
+        .line:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .line:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .line:nth-child(3) {
+            animation-delay: 4s;
+        }
+
+        .line:nth-child(4) {
+            animation-delay: 6s;
+        }
+
+        .line:nth-child(5) {
+            animation-delay: 8s;
+        }
+
+        .line:nth-child(6) {
+            animation-delay: 10s;
+        }
+
+        .line:nth-child(7) {
+            animation-delay: 12s;
+        }
+
+        .line:nth-child(8) {
+            animation-delay: 14s;
+        }
+
+        .line:nth-child(9) {
+            animation-delay: 16s;
+        }
+
+        .line:nth-child(10) {
+            animation-delay: 18s;
+        }
+
+        .line:nth-child(11) {
+            animation-delay: 20s;
+        }
+
+        .line:nth-child(12) {
+            animation-delay: 22s;
+        }
+
+        .line:nth-child(13) {
+            animation-delay: 24s;
+        }
+
+        .line:nth-child(14) {
+            animation-delay: 26s;
+        }
+
+        .line:nth-child(15) {
+            animation-delay: 28s;
+        }
+
+        .line:nth-child(16) {
+            animation-delay: 30s;
+        }
+
+        .line:nth-child(17) {
+            animation-delay: 32s;
+        }
+
+        .line:nth-child(18) {
+            animation-delay: 34s;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .options {
+            margin-top: 3rem;
+            /* More space above the image */
+            text-align: center;
+        }
+
+        .option-image {
+            width: 150px;
+            /* Larger image size */
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s ease, content 0.2s ease;
+        }
+
+        .option-image:hover {
+            transform: scale(1.2);
+            /* Slight zoom effect */
+            content: url("../assets/images/sundialred.png");
+            /* Change image on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="line">the sun rises in the <strong>east</strong> and sets in the <strong>west</strong>.</div>
+        <div class="line"><em>is that all it does?</em></div>
+        <div class="line">for 200,000 years, before <strong>iphones</strong>, before <strong>clocks</strong>, before
+            <strong>watches</strong>,
+        </div>
+        <div class="line">the sun told us all we needed to know.</div>
+        <div class="line"><strong>look around you</strong>. the sun, the moon, the direction of the wind,</div>
+        <div class="line">the stars, the clouds, the rain, <em>all</em> communicate time and space.</div>
+        <div class="line">they are the original <em>clock, calendar, compass, and map</em>.</div>
+        <div class="line">they are the <em>original timekeepers</em>.</div>
+        <div class="line">you measure them with your eyes, the tilt of your head,</div>
+        <div class="line">you can tell time using the <strong>dimensions of your hands</strong>,</div>
+        <div class="line">you can read the sky as easily as you read a clock face.</div>
+        <div class="line">as intuitively as you use google maps.</div>
+        <div class="line">and this is how people lived for <em>thousands and thousands</em> of years.</div>
+        <div class="line">but now, we are <strong>lost</strong>.</div>
+        <div class="line"><em>can we relearn how to appreciate the sun?</em></div>
+        <div class="line">by using the movements of our hands,</div>
+        <div class="line">and our own interpretations and sensory experiences?</div>
+        <div class="line">this tool will hopefully push you to always <strong>look up.</strong></div>
+
+        <div class="options">
+            <a href="https://badriyah.my.canva.site/metatoolfinal">
+                <img src="../assets/images/sundial.png" alt="start over" class="option-image">
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

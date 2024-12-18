@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>i'm going to describe a noun, or movement, or feeling.
+
+            <br><br>
+            imagine i am describing the sun.
+            <br><br>then imagine where you think it would be in the sky and point to it.
+        </h1>
+        <div class="options">
+
+            <button class="option-button" onclick="nextQuestion()">alright.</button>
+        </div>
+    </div>
+
+    <script>
+        function wrongAnswer() {
+            window.location.href = "seriously.html";
+        }
+
+        function nextQuestion() {
+            window.location.href = "question4.html";
+        }
+    </script>
+</body>
+
+</html>

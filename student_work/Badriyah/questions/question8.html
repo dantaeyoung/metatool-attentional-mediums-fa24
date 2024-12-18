@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>
+            <h1>an unfulfilled promise. <br> <br> you hope and wish for it, but when you get it, it seems to be
+                impermanent. <br> <br> and as quickly as it appears, it disappears once more.</h1>
+
+        </h1>
+        <div class="options">
+            <button class="option-button" onclick="nextquestion()">winter</button>
+            <button class="option-button" onclick="wrongAnswer()">spring</button>
+            <button class="option-button" onclick="wrongAnswer()">summer</button>
+            <button class="option-button" onclick="wrongAnswer()">fall</button>
+        </div>
+    </div>
+
+    <script>
+        function wrongAnswer() {
+            window.location.href = "seriously.html";
+        }
+
+        function nextquestion() {
+            window.location.href = "question9.html";
+        }
+    </script>
+</body>
+
+</html>
